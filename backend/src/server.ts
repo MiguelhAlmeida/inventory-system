@@ -1,9 +1,9 @@
-const express = require("express");
+import express from "express";
 
 const app = express();
 
 app.get("/", (req, res) => {
-    res.send("Servidor rodando");
+    res.send("Servidor com TypeScript");
 });
 
 app.listen(3000, () => {
