@@ -1,19 +1,12 @@
 import { Router } from "express";
+import { productService } from "../services/product.service";
 
 const router = Router();
 
-type Product = {
-    id: number;
-    name: string;
-    price: number;
-};
-
-// "banco" em memória
-let products: Product[] = [];
-
 // listar
 router.get("/products", (req, res) => {
-    res.json(products)
+    const products = productService.getAll();
+    res.json(products);
 });
 
 // buscar por id
@@ -21,7 +14,7 @@ router.get("/products", (req, res) => {
 router.get("/products/:id", (req, res) => {
     const id = Number(req.params.id);
 
-    const product = products.find(p => p.id === id);
+    const product = productService.getById(id);
 
     if (!product) {
         return res.status(404).json({ message: "Produto não encontrado" });
@@ -44,13 +37,7 @@ router.post("/products", (req, res) => {
         return res.status(400).json({ message: "Preço inválido"});
     }
 
-    const newProduct: Product = {
-        id: products.length + 1,
-        name,
-        price
-    }
-
-    products.push(newProduct);
+    const newProduct = productService.create(name, price);
 
     res.status(201).json(newProduct);
 });
