@@ -1,21 +1,17 @@
-type Product = {
-    id: number;
-    name: string;
-    price: number;
-}
+import { Product } from "../types/product.type";
 
 let products: Product[] = [];
 
 export const productService = {
-    getAll: () => {
+    getAll(): Product[] {
         return products;
     },
 
-    getById: (id:number) => {
+    getById(id: number): Product | undefined {
         return products.find(p => p.id === id);
     },
 
-    create: (name: string, price: number) => {
+    create(name: string, price: number): Product {
         const newProduct: Product = {
             id: products.length + 1,
             name,
@@ -27,10 +23,12 @@ export const productService = {
         return newProduct;
     },
 
-    update: (id: number, name: string, price: number) => {
+    update(id: number, name: string, price: number): Product | null {
         const product = products.find(p => p.id === id);
 
-        if (!product) return null;
+        if (!product) {
+            return null;
+        }
 
         product.name = name;
         product.price = price;
@@ -38,10 +36,12 @@ export const productService = {
         return product;
     },
 
-    delete: (id: number) => {
+    delete(id: number): boolean {
         const index = products.findIndex(p => p.id === id);
 
-        if (index === -1) return false;
+        if (index === -1) {
+            return false;
+        }
 
         products.splice(index, 1);
         
